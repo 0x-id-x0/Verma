@@ -1,0 +1,20 @@
+name: Build Verma (Windows VST3)
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -B build -A x64
+      - name: Build
+        run: cmake --build build --config Release --target Verma_VST3 Verma_Standalone --parallel
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: Verma-Windows-x64
+          path: |
+            build/Verma_artefacts/Release/VST3/Verma.vst3
+            build/Verma_artefacts/Release/Standalone/Verma.exe
